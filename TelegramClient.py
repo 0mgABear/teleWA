@@ -9,11 +9,12 @@ load_dotenv()
 api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
 channel_username = os.getenv("CHANNEL_USERNAME")
-telegram_id = int(os.getenv("TELEGRAM_ID"))
-# telegram_username = 
+#telegram_id = int(os.getenv("TELEGRAM_ID"))
+telegram_username=(os.getenv("TELEGRAM_USERNAME"))
+
 
 # Check if API credentials or channel username is missing
-if not api_id or not api_hash or not channel_username or not telegram_id:
+if not api_id or not api_hash or not channel_username or not telegram_username:
     raise ValueError("Missing API credentials or channel username. Check your .env file.")
 
 # Initialize Telegram client
@@ -22,10 +23,9 @@ client = TelegramClient('session_name', api_id, api_hash)
 
 
 async def main():
-    async for message in client.iter_messages(channel_username, limit=10):
+    async for message in client.iter_messages(channel_username, limit=5):
         if message.text or message.photo:
-            print(f"Forwarding message ID: {message.id}")
-            await client.forward_messages(telegram_id, message.id, channel_username)
+            await client.forward_messages(telegram_username, message.id, channel_username)
         else:
             print("[No Text or Image Found]")
 
