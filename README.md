@@ -9,7 +9,7 @@ This code may only be used for **non-commercial** purposes. You are not allowed 
 ## Contributors
 
 - [0mgABear](https://github.com/0mgABear)
-- [Joeerny](https://github.com/Joeerny)
+- [Jooerny](https://github.com/Jooerny)
 
 # Conceptual Idea
 
