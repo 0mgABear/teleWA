@@ -26,25 +26,38 @@ This code may only be used for **non-commercial** purposes. You are not allowed 
 
 # Problem Statement:
 
-The widespread habit of forwarding misinformation—such as unverified medical advice and unproven remedies—can mislead recipients and result in potentially harmful health decisions. For healthcare providers and local authorities (MOH), combating misinformation is a top priority, as it can create unnecessary fear and significantly hinder efforts to disseminate accurate medical information and guidance to the public.
+The widespread habit of forwarding misinformation—such as unverified medical advice and unproven remedies—can mislead recipients and result in potentially harmful health decisions.
+For healthcare providers and local authorities (MOH), combating misinformation is a top priority, as it can create unnecessary fear and significantly hinder efforts to disseminate accurate medical information and guidance to the public.
 
 # Proposed Solution:
 
-## First Iteration: 18.02.2025
+Since MOH already has a Telegram Channel, whatever message is disseminated there, it can be automatically forward to a MOH WhatsApp Channel / mailing list.
+
+## First Iteration:
 
 Proof-of-concept to retrieve data from Telegram API - working. ✅
 
-## Second Iteration : 18.02.2025
+## Second Iteration :
 
 Proof-of-concept to demonstrate ability to forward messages wholesale (full messages) - working. ✅
 
 19.02.2025
-Minor updates to code to include flexibility for telegram username.
+Minor updates to code to include flexibility for telegram username. - working. ✅
 
-## Third Iteration: 19.02.2025
+## Third Iteration:
 
-Elucidating project background and problem statement.
+Elucidating project background and problem statement. - Done. ✅
+
+## Fourth Iteration:
+
+Proof-of-concept to connect to Whatsapp API and forward the message directly from Telegram to Whatsapp.
 
 ## Future Integration (Suggestions):
 
 1. Integration with Postman (no access due to access being limited to gov.sg personnel) - to send registered, trustworthy SMS from gov.sg.
+
+## Limitations and Acknowledgements:
+
+1. WhatsApp API is not free / has a limited free tier. However, WhatsApp is still the destination of choice, to directly address our problem statement - where misinformation is spreading via WhatsApp.
+   Hence, the destination is by design (even though the API might be costly).
+   Having forwardable content is directly piggybacking on existing human behaviour of forwarding messages to one's social groups.
