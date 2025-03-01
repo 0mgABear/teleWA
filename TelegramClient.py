@@ -1,38 +1,45 @@
 from telethon import TelegramClient
 import os
 from dotenv import load_dotenv
+from twilio.rest import Client
 
 # Load environment variables from .env file
 load_dotenv()
 
-# Retrieve API credentials from .env
+# Retrieve Telegramm API credentials from .env
 api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
 channel_username = os.getenv("CHANNEL_USERNAME")
 telegram_username = os.getenv("TELEGRAM_USERNAME")  # This can be @username or numeric user ID
 
+# Retrieve Twilio Credentials
+account_sid = os.getenv("TWILIO_LIVE_SID")
+auth_token = os.getenv("TWILIO_LIVE_AUTH_TOKEN")
+twilio_WA_number = os.getenv("TWILIO_WA_NUMBER")
+recipient_WA_number = os.getenv("RECIPIENT_WA_NUMBER")
+
 # Check if API credentials or channel username is missing
-if not api_id or not api_hash or not channel_username or not telegram_username:
+if not api_id or not api_hash or not channel_username or not account_sid or not auth_token:
     raise ValueError("Missing API credentials or channel username. Check your .env file.")
 
-# Initialize Telegram client
+# Initialize Telegram client & Twilio Client
 session_name = 'my_session'
 client = TelegramClient(session_name, api_id, api_hash)
+twilio_client = Client(account_sid, auth_token)
 
 async def main():
     async for message in client.iter_messages(channel_username, limit=5):
-        if message.text or message.photo or message.media:
-            # Forward the message as a forwarded message (not as a new message)
-            if telegram_username.isdigit():
-                user_id = int(telegram_username)  # Convert it to int if it's a user ID
-                await client.forward_messages(user_id, message.id, channel_username)  # Forward as a real forwarded message
-            else:
-                # If telegram_username is a username (starts with '@')
-                await client.forward_messages(telegram_username, message.id, channel_username)  # Forward as a real forwarded message
-        else:
-            print("[No Text, Photo, or Media Found]")
+        if message.text:
+            print(f"Forwarding message ID: {message.id}")
 
-        print('-' * 50)  # Separator between each message for clarity
+            # Send Telegram message to WhatsApp
+            twilio_client.messages.create(
+                from_=twilio_WA_number,
+                to=recipient_WA_number,
+                body=message.text
+            )
+
+        print('-' * 50)
 
 # Run the client and execute the main function
 with client:
