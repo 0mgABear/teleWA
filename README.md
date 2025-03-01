@@ -17,11 +17,11 @@ This code may only be used for **non-commercial** purposes. You are not allowed 
 2. Some insignificant part of these messages tend to be health-related.
 3. Some of these messages could be misinformation such as unproven cures and/or medicine and/or remedies.
    Sources:
-   a. https://www.channelnewsasia.com/commentary/covid-19-coronavirus-forwarding-whatsapp-message-fake-news-766406
-   b. https://www.sciencedirect.com/science/article/pii/S0213911120301953
-   c. https://www.unicef.org/guineabissau/press-releases/unicef-alerts-spreading-false-messages-increase-risk-misinformation-about-corona
-   d. https://pmc.ncbi.nlm.nih.gov/articles/PMC8590927/
-   e. https://www.straitstimes.com/singapore/pandemic-of-online-misinformation-on-covid-19-takes-its-toll
+   - a. https://www.channelnewsasia.com/commentary/covid-19-coronavirus-forwarding-whatsapp-message-fake-news-766406
+   - b. https://www.sciencedirect.com/science/article/pii/S0213911120301953
+   - c. https://www.unicef.org/guineabissau/press-releases/unicef-alerts-spreading-false-messages-increase-risk-misinformation-about-corona
+   - d. https://pmc.ncbi.nlm.nih.gov/articles/PMC8590927/
+   - e. https://www.straitstimes.com/singapore/pandemic-of-online-misinformation-on-covid-19-takes-its-toll
 4. This is not a problem confined to Singapore, but presents a serious public health problem for healthcare providers and for MOH.
 
 # Problem Statement:
