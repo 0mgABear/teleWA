@@ -59,6 +59,11 @@ However, there are the following limitations:
 
 Next iteration: to explore if it can forward the message directly to a specific channel.
 
+## Fifth Iteration:
+
+1.  able to forward messages and media to WhatsApp personal number.
+2.  unable to send to a channel directly (to explore possible future solutions in next iteration).
+
 ## Future Integration (Suggestions):
 
 1. Integration with Postman (no access due to access being limited to gov.sg personnel) - to send registered, trustworthy SMS from gov.sg.
@@ -68,3 +73,5 @@ Next iteration: to explore if it can forward the message directly to a specific 
 1. WhatsApp API is not free / has a limited free tier. However, WhatsApp is still the destination of choice, to directly address our problem statement - where misinformation is spreading via WhatsApp.
    Hence, the destination is by design (even though the API might be costly).
    Having forwardable content is directly piggybacking on existing human behaviour of forwarding messages to one's social groups.
+
+2. Twilio can send to a potentially unlimited number of recipients (like a mailing list), subject to rate and cost limits.
