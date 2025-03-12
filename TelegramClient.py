@@ -12,7 +12,6 @@ load_dotenv()
 api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
 channel_username = os.getenv("CHANNEL_USERNAME")
-telegram_username = os.getenv("TELEGRAM_USERNAME")
 
 # Retrieve Twilio Credentials
 account_sid = os.getenv("TWILIO_LIVE_SID")
@@ -36,52 +35,58 @@ client = TelegramClient(session_name, api_id, api_hash)
 twilio_client = Client(account_sid, auth_token)
 
 async def main():
-    # Iterate through the last 5 messages in the channel
-    async for message in client.iter_messages(channel_username, limit=5):
-        if message.text:
-            # Send Telegram message to WhatsApp
+    added_grouped_ids = set()    
+    async for message in client.iter_messages(channel_username, limit=10):
+        media_urls = []  # Store media links
+        temp_files = []  # Track local file paths for cleanup
+        grouped_media = {}
+
+        if message.text and not message.media:
             twilio_client.messages.create(
                 from_=twilio_WA_number,
                 to=recipient_WA_number,
-                body=message.text  # Forward the text of the message
+                body=message.text
             )
-
         elif message.media:
-            print(f"Message ID: {message.id} contains media. Downloading and uploading to Google Drive...")
+            album_messages = []
 
-            # Download the media to a temporary location
-            file_path = f"temp_media_{message.id}.jpg"  # You can customize the file name based on the message ID or type
-            await message.download_media(file_path)
-            gdrive_file = drive.CreateFile({'title': f'media_{message.id}.jpg'})  # Change the title accordingly
-            gdrive_file.SetContentFile(file_path)
-            gdrive_file.Upload()
-            gdrive_file.InsertPermission({
-                'type': 'anyone',
-                'value': 'anyone',
-                'role': 'reader'
-            })
+            if message.grouped_id and message.grouped_id not in added_grouped_ids:
+                added_grouped_ids.add(message.grouped_id)
 
-            # Print the Google Drive file ID (optional)
-            print(f"Uploaded media file to Google Drive with ID: {gdrive_file['id']}")
+                # Collect all media messages with the same grouped_id
+                async for m in client.iter_messages(channel_username, limit=10):
+                    if m.grouped_id == message.grouped_id:
+                        album_messages.append(m)
 
-            # Delete the local temporary file
-            os.remove(file_path)
+                album_messages.sort(key=lambda m: m.date) 
 
-            # Send the media file via Twilio WhatsApp
-            file_url = f"https://drive.google.com/uc?id={gdrive_file['id']}"
-            print(f"Public URL for file: {file_url}")
+                # Now process all media for that grouped_id
+                for media_msg in album_messages:
+                    file_path = f"temp_media_{media_msg.id}.jpg"
+                    temp_files.append(file_path)
+                    await media_msg.download_media(file_path)
 
-            # Send the media file via Twilio WhatsApp
-            twilio_client.messages.create(
-                from_=twilio_WA_number,
-                to=recipient_WA_number,
-                body=message.text,
-                media_url=[file_url]  # Send the media file URL to WhatsApp
-            )
+                    gdrive_file = drive.CreateFile({'title': os.path.basename(file_path)})
+                    gdrive_file.SetContentFile(file_path)
+                    gdrive_file.Upload()
+                    gdrive_file.InsertPermission({
+                        'type': 'anyone',
+                        'value': 'anyone',
+                        'role': 'reader'
+                    })
 
-            # Optional: Delete the file from Google Drive after sending to WhatsApp
-            gdrive_file.Delete()
-            print(f"Deleted file from Google Drive with ID: {gdrive_file['id']}")
+                    file_url = f"https://drive.google.com/uc?id={gdrive_file['id']}"
+                    media_urls.append(file_url)
+
+                    os.remove(file_path)
+
+                for link in media_urls:
+                    twilio_client.messages.create(
+                        from_=twilio_WA_number,
+                        to=recipient_WA_number,
+                        body=message.text,
+                        media_url=link
+                    )
 
         print('-' * 50)  # Separator for clarity
 
