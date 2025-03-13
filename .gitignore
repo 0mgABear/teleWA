@@ -5,3 +5,4 @@ client_secrets.json
 mycreds.txt
 myenv
 package-lock.json
+node_modules
