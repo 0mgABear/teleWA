@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@vercel/node": "^5.1.13",
+    "axios": "^1.8.3"
+  }
+}

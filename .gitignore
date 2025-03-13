@@ -3,3 +3,5 @@ session_name.session
 .env
 client_secrets.json
 mycreds.txt
+myenv
+package-lock.json
