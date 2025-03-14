@@ -11,7 +11,7 @@ gauth = GoogleAuth()
 if not os.path.exists("mycreds.txt"):  
     gauth.LocalWebserverAuth()  
 else:
-    gauth.LoadCredentialsFile("mycreds.txt")  # Load saved credentials
+    gauth.LoadCredentialsFile("mycreds.txt")
 
 # Save credentials for the next run
 gauth.SaveCredentialsFile("mycreds.txt") 
